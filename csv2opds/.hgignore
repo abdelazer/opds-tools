@@ -1,0 +1,22 @@
+syntax: glob
+*~
+*.pyc
+*.pyo
+src
+*env*
+log
+*orig
+sstore
+.coverage
+.*.log
+.*.pid
+.*.swp
+.test.*stmts
+build
+dist
+egg-cache
+syntax: regexp
+.*\#.*\#$
+\.*\#
+.*DS_Store
+storage/*
