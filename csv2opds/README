@@ -2,4 +2,4 @@
 
 >>> opds = csv2opds.Opds('foo.csv')
 
->>> opds.output_catalogs('dirname')
+>>> opds.output_catalog('dirname')

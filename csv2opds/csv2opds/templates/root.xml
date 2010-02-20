@@ -1,0 +1,12 @@
+<?python
+import datetime
+updated = datetime.datetime.utcnow()
+?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>OPDS Catalog</title>
+  <updated>${updated.isoformat()}</updated>
+  <id>${atom_id}</id>
+  <author>
+    <name>${feed_author}</name>
+  </author>  
+</feed>
