@@ -1,0 +1,5 @@
+>>> import csv2opds
+
+>>> opds = csv2opds.Opds('foo.csv')
+
+>>> opds.output_catalogs('dirname')

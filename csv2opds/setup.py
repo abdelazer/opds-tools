@@ -19,6 +19,8 @@ setup(name='csv2opds',
       zip_safe=False,
       install_requires=[
           # -*- Extra requirements: -*-
+          'lxml>=2.2',
+          'genshi>=0.5'
       ],
       entry_points="""
       # -*- Entry points: -*-
