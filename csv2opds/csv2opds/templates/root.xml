@@ -9,5 +9,11 @@ updated = datetime.datetime.utcnow()
   <author>
     <name>${feed_author}</name>
   </author>  
-  <link rel="http://opds-spec.org/crawlable" href="${crawlable}"/>
+  <link rel="http://opds-spec.org/crawlable" 
+        href="${crawlable}"
+        type="application/atom+xml;type=feed;profile=http://opds-spec.org/2010/catalog"/>
+  <link rel="start" 
+        href="${root}"
+        type="application/atom+xml;type=feed;profile=http://opds-spec.org/2010/catalog"/>
+
 </feed>

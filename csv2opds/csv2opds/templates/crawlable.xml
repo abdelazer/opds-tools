@@ -3,17 +3,19 @@ import datetime
 updated = datetime.datetime.utcnow()
 ?>
 <feed xmlns="http://www.w3.org/2005/Atom"
+      xmlns:py="http://genshi.edgewall.org/"
       xmlns:xi="http://www.w3.org/2001/XInclude">
-  <title>OPDS Catalog</title>
+  <title>Crawlable OPDS Catalog</title>
   <updated>${updated.isoformat()}</updated>
   <id>${atom_id}</id>
   <author>
     <name>${feed_author}</name>
   </author>  
-  <link rel="http://opds-spec.org/crawlable" href="${crawlable}"/>
+  <link rel="start" 
+        href="${root}"
+        type="application/atom+xml;type=feed;profile=http://opds-spec.org/2010/catalog"/>
   <xi:include href="entry.xml" />
   <py:for each="e in entries">
     ${entry(e)}
   </py:for>
 </feed>
-

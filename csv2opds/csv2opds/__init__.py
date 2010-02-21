@@ -52,21 +52,32 @@ class Opds(object):
 
     def output_catalog(self, output_dir):
         self._generate_root(output_dir)
+        self._generate_crawlable(output_dir)
 
     def _generate_root(self, output_dir):
         root_fn = os.path.join(output_dir, ROOT_CATALOG['output'])
         f = open(root_fn, 'w')
         tmpl = self.template_loader.load(ROOT_CATALOG['template'])
         root_urn = 'urn:uuid:' + str(uuid.uuid3(self.uuid_master, ROOT_CATALOG['template']))
-        output = tmpl.generate(feed_author=self.author, atom_id=root_urn, crawlable=CRAWLABLE_CATALOG['output'])
+        tmpl_vars = {'feed_author': self.author,
+                     'root': ROOT_CATALOG['output'],
+                     'crawlable': CRAWLABLE_CATALOG['output'],
+                     'atom_id': root_urn,
+                    }
+        output = tmpl.generate(**tmpl_vars)
         f.write(output.render())
         f.close()
 
     def _generate_crawlable(self, output_dir):
-        crawlable_fn = os.path.join(output_dir, crawlable_CATALOG['output'])
+        crawlable_fn = os.path.join(output_dir, CRAWLABLE_CATALOG['output'])
         f = open(crawlable_fn, 'w')
-        tmpl = self.template_loader.load(ROOT_CATALOG['template'])
-        crawlable_urn = 'urn:uuid:' + str(uuid.uuid3(self.uuid_master, crawlable_CATALOG['template']))
-        output = tmpl.generate(feed_author=self.author, atom_id=crawlable_urn, entries=self.entries)
+        tmpl = self.template_loader.load(CRAWLABLE_CATALOG['template'])
+        crawlable_urn = 'urn:uuid:' + str(uuid.uuid3(self.uuid_master, CRAWLABLE_CATALOG['template']))
+        tmpl_vars = {'feed_author': self.author,
+                     'root': ROOT_CATALOG['output'],
+                     'entries': self.entries,
+                     'atom_id': crawlable_urn,
+                    }
+        output = tmpl.generate(**tmpl_vars)
         f.write(output.render())
         f.close()

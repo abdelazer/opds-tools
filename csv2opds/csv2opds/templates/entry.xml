@@ -2,7 +2,9 @@
 import datetime
 updated = datetime.datetime.utcnow()
 ?>
-<entry xmlns="http://www.w3.org/2005/Atom" py:def="entry(e)">
+<entry xmlns="http://www.w3.org/2005/Atom" 
+       xmlns:py="http://genshi.edgewall.org/" 
+       py:def="entry(e)">
   <title>${e.title}</title>
   <updated>${updated.isoformat()}</updated>
   <id>${e.urn}</id>
