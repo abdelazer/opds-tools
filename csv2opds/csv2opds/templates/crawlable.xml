@@ -2,7 +2,8 @@
 import datetime
 updated = datetime.datetime.utcnow()
 ?>
-<feed xmlns="http://www.w3.org/2005/Atom">
+<feed xmlns="http://www.w3.org/2005/Atom"
+      xmlns:xi="http://www.w3.org/2001/XInclude">
   <title>OPDS Catalog</title>
   <updated>${updated.isoformat()}</updated>
   <id>${atom_id}</id>
@@ -10,5 +11,9 @@ updated = datetime.datetime.utcnow()
     <name>${feed_author}</name>
   </author>  
   <link rel="http://opds-spec.org/crawlable" href="${crawlable}"/>
+  <xi:include href="entry.xml" />
+  <py:for each="e in entries">
+    ${entry(e)}
+  </py:for>
 </feed>
 
