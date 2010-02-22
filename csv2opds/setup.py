@@ -16,6 +16,9 @@ setup(name='csv2opds',
       license='New BSD License',
       packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
       include_package_data=True,
+      scripts=[
+          'scripts/csv2opds',
+      ],
       zip_safe=False,
       install_requires=[
           # -*- Extra requirements: -*-

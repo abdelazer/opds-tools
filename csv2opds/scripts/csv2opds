@@ -1,0 +1,31 @@
+#!/usr/bin/env python
+# encoding: utf-8
+"""
+csv2opds
+
+Created by Keith Fahlgren on Mon Feb 22 09:07:03 PST 2010
+Copyright (c) 2010 Threepress Consulting Inc. All rights reserved.
+"""
+
+import logging
+import optparse 
+
+log = logging.getLogger(__name__)
+
+def main():
+    usage = "usage: %prog [options] CSV_FILES"
+    parser = optparse.OptionParser(usage)
+    parser.add_option("-a", "--author",  action="store_true", dest="catalog_author")
+    parser.add_option("-v", "--verbose", action="store_true", dest="verbose")
+
+    (options, args) = parser.parse_args()
+    if len(args) < 2:
+        parser.error("Please supply CSV files as arguments")
+    if options.verbose:
+        log.level = logging.DEBUG
+    for csv_fn in args[1:]:
+        opds = csv2opds.Opds(csv_fn, options.catalog_author)
+
+if __name__ == "__main__":
+    main()
+
