@@ -3,3 +3,5 @@
 >>> opds = csv2opds.Opds('foo.csv')
 
 >>> opds.output_catalog('dirname')
+
+./scripts/csv2opds -a 'Keith Fahlgren' -o out csv2opds/tests/files/simple.csv 

@@ -9,22 +9,29 @@ Copyright (c) 2010 Threepress Consulting Inc. All rights reserved.
 
 import logging
 import optparse 
+import os
+import sys
+
+import csv2opds
 
 log = logging.getLogger(__name__)
 
 def main():
     usage = "usage: %prog [options] CSV_FILES"
     parser = optparse.OptionParser(usage)
-    parser.add_option("-a", "--author",  action="store_true", dest="catalog_author")
-    parser.add_option("-v", "--verbose", action="store_true", dest="verbose")
+    parser.add_option("-a", "--author", metavar="CATALOG_AUTHOR",  action="store", dest="catalog_author", default=False, help="Set CATALOG_AUTHOR for all generated Catalogs")
+    parser.add_option("-o", "--output", metavar="OUTPUT_DIR",  action="store", dest="output_dir", default=False, help="Output Catalogs to OUTPUT_DIR")
 
     (options, args) = parser.parse_args()
-    if len(args) < 2:
-        parser.error("Please supply CSV files as arguments")
-    if options.verbose:
-        log.level = logging.DEBUG
-    for csv_fn in args[1:]:
+    if len(args) < 1:
+        parser.print_help()
+    if not(options.catalog_author):
+        parser.error("Please supply a Catalog author")
+
+    for csv_fn in args:
         opds = csv2opds.Opds(csv_fn, options.catalog_author)
+        os.makedirs(options.output_dir)
+        opds.output_catalog(options.output_dir)
 
 if __name__ == "__main__":
     main()
