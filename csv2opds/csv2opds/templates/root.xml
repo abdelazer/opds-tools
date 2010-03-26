@@ -1,9 +1,10 @@
 <?python
 import datetime
+from csv2opds import CATALOG_TYPE
 updated = datetime.datetime.utcnow()
 ?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>OPDS Catalog</title>
+  <title>${title}</title>
   <updated>${updated.isoformat()}</updated>
   <id>${atom_id}</id>
   <author>
@@ -11,9 +12,9 @@ updated = datetime.datetime.utcnow()
   </author>  
   <link rel="http://opds-spec.org/crawlable" 
         href="${crawlable}"
-        type="application/atom+xml;type=feed;profile=http://opds-spec.org/2010/catalog"/>
+        type="${CATALOG_TYPE}"/>
   <link rel="start" 
         href="${root}"
-        type="application/atom+xml;type=feed;profile=http://opds-spec.org/2010/catalog"/>
+        type="${CATALOG_TYPE}"/>
 
 </feed>

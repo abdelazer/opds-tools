@@ -1,5 +1,6 @@
 <?python
 import datetime
+from csv2opds import CATALOG_TYPE
 updated = datetime.datetime.utcnow()
 ?>
 <feed xmlns="http://www.w3.org/2005/Atom"
@@ -13,7 +14,7 @@ updated = datetime.datetime.utcnow()
   </author>  
   <link rel="start" 
         href="${root}"
-        type="application/atom+xml;type=feed;profile=http://opds-spec.org/2010/catalog"/>
+        type="${CATALOG_TYPE}"/>
   <xi:include href="entry.xml" />
   <py:for each="e in entries">
     ${entry(e)}

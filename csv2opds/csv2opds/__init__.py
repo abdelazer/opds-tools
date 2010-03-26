@@ -30,13 +30,17 @@ CSV_TEMPLATE_HEADERS = ['isbn', 'title', 'authors', 'pubdate', 'publisher', 'pri
                         'ePub_url', 'pdf_url', 'mobi_url', 'cover_thumbnail_url', 
                         'language', 'description', 'rights', 'publisher_id', 'rank', 'featured']
 
+CATALOG_TYPE = "application/atom+xml;type=feed;profile=opds-catalog"
+DEFAULT_TITLE = 'OPDS Catalog'
+
 class Opds(object):
-    def __init__(self, csv_fn, catalog_author):
+    def __init__(self, csv_fn, catalog_author, title=DEFAULT_TITLE):
         template_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), 'templates'))
         self.template_loader = genshi.template.TemplateLoader([template_dir])
         self.author = catalog_author
         self.uuid_master = uuid.uuid3(UUID_KEY, self.author)
         self.entries = self.entries_from_csv(csv_fn, self.uuid_master)
+        self.root_title = title
 
     def entries_from_csv(self, csv_fn, uuid_master):
         entries = []
@@ -61,6 +65,7 @@ class Opds(object):
         root_urn = 'urn:uuid:' + str(uuid.uuid3(self.uuid_master, ROOT_CATALOG['template']))
         tmpl_vars = {'feed_author': self.author,
                      'root': ROOT_CATALOG['output'],
+                     'title': self.root_title,
                      'crawlable': CRAWLABLE_CATALOG['output'],
                      'atom_id': root_urn,
                     }
