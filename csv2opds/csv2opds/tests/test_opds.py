@@ -100,6 +100,14 @@ class TestOpds(object):
         actual_title = xml.xpath('/atom:feed/atom:title/text()', namespaces=NSS)[0]
         assert_equals(self.options.title, actual_title)
 
+    def test_root_catalog_hierarchical(self):
+        """The Root OPDS Catalog should be a Hierarchical Collection"""
+        xml = self._root_catalog_as_xml()
+        hierarchical_entries = len(xml.xpath('/atom:feed/atom:entry[not(link[starts-with(@rel, "http://opds-spec.org/acqusition")])]', namespaces=NSS))
+        expected = 5
+        assert_equals(expected, hierarchical_entries)
+
+
     def test_output_is_valid_atom(self):
         """An OPDS Catalog should be outputted as a set of valid Atom feeds"""
         for xml in self._catalog_files_as_xml():
@@ -131,7 +139,15 @@ class TestOpds(object):
         expected = 1
         assert_equal(expected, relations)
 
-    def test_output_has_crawlable(self):
+    def test_rich_output_has_featured_relation(self):
+        """A rich OPDS Catalog should include a relation to a Publication Collection of featured titles"""
+        xml = self._root_catalog_as_xml()
+        relations = len(xml.xpath('atom:link[@rel="http://opds-spec.org/featured"]', namespaces=NSS))
+        expected = 1
+        assert_equal(expected, relations)
+
+
+    def test_output_crawlable_rows(self):
         """A Crawlable OPDS Catalog should include an Entry for every row in the input CSV"""
         xml = self._root_catalog_as_xml()
         crawlable_link_href = xml.xpath('atom:link[@rel="http://opds-spec.org/crawlable"]/@href', namespaces=NSS)[0]

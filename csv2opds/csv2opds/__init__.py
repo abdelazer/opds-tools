@@ -28,7 +28,11 @@ CSV_TEMPLATE_HEADERS = ['isbn', 'title', 'authors', 'pubdate', 'publisher', 'pri
 
 CATALOGS = {'root': 'opds.xml',
             'crawlable': 'crawlable.xml',
-            'new': 'new.xml'
+            'new': 'new.xml',
+            'featured': 'featured.xml',
+            'popular': 'popular.xml',
+            'alphabetical': 'alpha.xml',
+            'authors': 'authors.xml',
            }
 CATALOG_TYPE = "application/atom+xml;type=feed;profile=opds-catalog"
 DEFAULT_TITLE = 'OPDS Catalog'

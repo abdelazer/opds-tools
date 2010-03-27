@@ -10,14 +10,40 @@ updated = datetime.datetime.utcnow()
   <author>
     <name>${feed_author}</name>
   </author>  
-  <link rel="http://opds-spec.org/crawlable" 
-        href="${catalogs['crawlable']}"
-        type="${CATALOG_TYPE}"/>
-  <link rel="http://opds-spec.org/new" 
-        href="${catalogs['new']}"
-        type="${CATALOG_TYPE}"/>
-  <link rel="start" 
-        href="${catalogs['root']}"
-        type="${CATALOG_TYPE}"/>
+  <link rel="http://opds-spec.org/crawlable" href="${catalogs['crawlable']}" type="${CATALOG_TYPE}"/>
+  <link rel="http://opds-spec.org/featured"  href="${catalogs['featured']}"  type="${CATALOG_TYPE}"/>
+  <link rel="http://opds-spec.org/popular"   href="${catalogs['popular']}"   type="${CATALOG_TYPE}"/>
+  <link rel="http://opds-spec.org/new"       href="${catalogs['new']}"       type="${CATALOG_TYPE}"/>
 
+  <link rel="start" href="${catalogs['root']}" type="${CATALOG_TYPE}"/>
+  <entry>
+    <title>Bestsellers</title>
+    <updated>${updated.isoformat()}</updated>
+    <id>${catalogs['popular']}</id>
+    <content type="text">Bestsellers</content>
+  </entry>  
+  <entry>
+    <title>New</title>
+    <updated>${updated.isoformat()}</updated>
+    <id>${catalogs['new']}</id>
+    <content type="text">Newly published</content>
+  </entry>  
+  <entry>
+    <title>Featured</title>
+    <updated>${updated.isoformat()}</updated>
+    <id>${catalogs['featured']}</id>
+    <content type="text">Titles we recommend</content>
+  </entry>  
+  <entry>
+    <title>All Titles (Alphabetical)</title>
+    <updated>${updated.isoformat()}</updated>
+    <id>${catalogs['alphabetical']}</id>
+    <content type="text">Every title in alphabetical order</content>
+  </entry>  
+  <entry>
+    <title>All Authors (Alphabetical)</title>
+    <updated>${updated.isoformat()}</updated>
+    <id>${catalogs['authors']}</id>
+    <content type="text">Every author in alphabetical order</content>
+  </entry>  
 </feed>
