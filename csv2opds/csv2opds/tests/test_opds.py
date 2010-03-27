@@ -23,20 +23,31 @@ import csv2opds
 from csv2opds import NSS
 
 log = logging.getLogger(__name__)
+class DummyOptions(object):
+    def __init__(self):
+        self.title = None
+        self.author = None
+
+    def __setattr__(self, name, value):
+        self.__dict__[name] = value
 
 class TestOpds(object):
     def setup(self):
-        self.author = str(uuid.uuid4())
         self.filedir = os.path.abspath(os.path.join(os.path.dirname(__file__), 'files'))
         self.tempdir = tempfile.mkdtemp()
+
+        self.options = DummyOptions()
+        self.options.author = str(uuid.uuid4())
+        self.options.title  = str(uuid.uuid4())
+
         self.rich_csv_fn = os.path.join(self.filedir, 'rich.csv')
         self._write_rich_csv(self.rich_csv_fn)
-        self.catalog_title = str(uuid.uuid4())
-        self.opds = csv2opds.Opds(self.rich_csv_fn, self.author, title=self.catalog_title)
-        atom_rng_fn = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'schemas', 'atom.rng'))
-        self.atom_validator = etree.RelaxNG(etree.parse(atom_rng_fn))
+        self.opds = csv2opds.Opds(self.rich_csv_fn, self.options)
         self.opds.output_catalog(self.tempdir)
         self.catalog_files = glob.glob(self.tempdir + '/*.xml')
+
+        atom_rng_fn = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'schemas', 'atom.rng'))
+        self.atom_validator = etree.RelaxNG(etree.parse(atom_rng_fn))
 
     def teardown(self):
         shutil.rmtree(self.tempdir)
@@ -44,7 +55,9 @@ class TestOpds(object):
 
     def test_init(self):
         """A CSV file should be able to be opened"""
-        opds = csv2opds.Opds(self.rich_csv_fn, self.author)
+        options = DummyOptions()
+        options.author = str(uuid.uuid4())
+        opds = csv2opds.Opds(self.rich_csv_fn, options)
         assert opds
 
     def test_output_something(self):
@@ -56,7 +69,9 @@ class TestOpds(object):
         tempdir = tempfile.mkdtemp()
         csv_fn = os.path.join(self.filedir, 'sparse.csv')
         self._write_sparse_csv(csv_fn)
-        opds = csv2opds.Opds(csv_fn, self.author)
+        options = DummyOptions()
+        options.author = str(uuid.uuid4())
+        opds = csv2opds.Opds(csv_fn, options)
         opds.output_catalog(tempdir)
         catalog_files = glob.glob(tempdir + '/*.xml')
         assert len(catalog_files) > 0
@@ -83,7 +98,7 @@ class TestOpds(object):
         """The Root OPDS Catalog should use the specified title"""
         xml = self._root_catalog_as_xml()
         actual_title = xml.xpath('/atom:feed/atom:title/text()', namespaces=NSS)[0]
-        assert_equals(self.catalog_title, actual_title)
+        assert_equals(self.options.title, actual_title)
 
     def test_output_is_valid_atom(self):
         """An OPDS Catalog should be outputted as a set of valid Atom feeds"""
@@ -101,6 +116,13 @@ class TestOpds(object):
         crawlable_links = len(xml.xpath('atom:link[@rel="http://opds-spec.org/crawlable"]', namespaces=NSS))
         expected = 1
         assert_equal(expected, crawlable_links)
+
+    def test_rich_output_has_new_relation(self):
+        """A rich OPDS Catalog should include a relation to a Publication Collection of new titles"""
+        xml = self._root_catalog_as_xml()
+        relations = len(xml.xpath('atom:link[@rel="http://opds-spec.org/new"]', namespaces=NSS))
+        expected = 1
+        assert_equal(expected, relations)
 
     def test_output_has_crawlable(self):
         """A Crawlable OPDS Catalog should include an Entry for every row in the input CSV"""
