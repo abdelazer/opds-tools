@@ -117,6 +117,13 @@ class TestOpds(object):
         expected = 1
         assert_equal(expected, crawlable_links)
 
+    def test_rich_output_has_popular_relation(self):
+        """A rich OPDS Catalog should include a relation to a Publication Collection of popular titles"""
+        xml = self._root_catalog_as_xml()
+        relations = len(xml.xpath('atom:link[@rel="http://opds-spec.org/popular"]', namespaces=NSS))
+        expected = 1
+        assert_equal(expected, relations)
+
     def test_rich_output_has_new_relation(self):
         """A rich OPDS Catalog should include a relation to a Publication Collection of new titles"""
         xml = self._root_catalog_as_xml()
