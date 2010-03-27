@@ -11,13 +11,13 @@ updated = datetime.datetime.utcnow()
     <name>${feed_author}</name>
   </author>  
   <link rel="http://opds-spec.org/crawlable" 
-        href="${crawlable}"
+        href="${catalogs['crawlable']}"
         type="${CATALOG_TYPE}"/>
   <link rel="http://opds-spec.org/new" 
-        href="${new}"
+        href="${catalogs['new']}"
         type="${CATALOG_TYPE}"/>
   <link rel="start" 
-        href="${root}"
+        href="${catalogs['root']}"
         type="${CATALOG_TYPE}"/>
 
 </feed>

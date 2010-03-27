@@ -135,7 +135,7 @@ class TestOpds(object):
         assert_equal(expected, entries)
 
     def _root_catalog_as_xml(self):
-        root_catalog_fn = os.path.join(self.tempdir, csv2opds.ROOT_CATALOG['output'])
+        root_catalog_fn = os.path.join(self.tempdir, csv2opds.CATALOGS['root'])
         xml = etree.parse(root_catalog_fn)
         return xml
 

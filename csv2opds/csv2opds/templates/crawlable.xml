@@ -12,8 +12,11 @@ updated = datetime.datetime.utcnow()
   <author>
     <name>${feed_author}</name>
   </author>  
+  <link rel="self" 
+        href="${catalogs['crawlable']}"
+        type="${CATALOG_TYPE}"/>
   <link rel="start" 
-        href="${root}"
+        href="${catalogs['root']}"
         type="${CATALOG_TYPE}"/>
   <xi:include href="entry.xml" />
   <py:for each="e in entries">

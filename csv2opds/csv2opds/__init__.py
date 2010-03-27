@@ -26,7 +26,7 @@ CSV_TEMPLATE_HEADERS = ['isbn', 'title', 'authors', 'pubdate', 'publisher', 'pri
                         'ePub_url', 'pdf_url', 'mobi_url', 'cover_thumbnail_url', 
                         'language', 'description', 'rights', 'publisher_id', 'rank', 'featured']
 
-CATALOGS = {'root': 'root.xml',
+CATALOGS = {'root': 'opds.xml',
             'crawlable': 'crawlable.xml',
             'new': 'new.xml'
            }
@@ -80,7 +80,7 @@ class Opds(object):
         tmpl = self.template_loader.load(CATALOGS['crawlable'])
         crawlable_urn = 'urn:uuid:' + str(uuid.uuid3(self.uuid_master, CATALOGS['crawlable']))
         tmpl_vars = {'feed_author': self.author,
-                     'root': CATALOGS['root'],
+                     'catalogs': CATALOGS,
                      'entries': self.entries,
                      'atom_id': crawlable_urn,
                     }
