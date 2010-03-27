@@ -94,6 +94,14 @@ class TestOpds(object):
             for link in xml.xpath('atom:link[starts-with(@type, "application/atom+xml")]', namespaces=NSS):
                 assert ';profile=opds-catalog' in link.get('type')
 
+    def test_start_links_in_all_catalogs(self):
+        """An OPDS Catalog should link to the Root OPDS Catalog"""
+        for xml in self._catalog_files_as_xml():
+            link = xml.xpath('atom:link[@type = "%s"][@rel="start"]' % csv2opds.CATALOG_TYPE, namespaces=NSS)[0]
+            actual = link.get('href')
+            expected = csv2opds.CATALOGS['root']
+            assert_equals(expected, actual)
+
     def test_root_catalog_title(self):
         """The Root OPDS Catalog should use the specified title"""
         xml = self._root_catalog_as_xml()
