@@ -26,6 +26,10 @@ CSV_TEMPLATE_HEADERS = ['isbn', 'title', 'authors', 'pubdate', 'publisher', 'pri
                         'ePub_url', 'pdf_url', 'mobi_url', 'cover_thumbnail_url', 
                         'language', 'description', 'rights', 'publisher_id', 'rank', 'featured']
 
+CATALOGS = {'root': 'root.xml',
+            'crawlable': 'crawlable.xml',
+            'new': 'new.xml'
+           }
 CATALOG_TYPE = "application/atom+xml;type=feed;profile=opds-catalog"
 DEFAULT_TITLE = 'OPDS Catalog'
 
@@ -57,15 +61,13 @@ class Opds(object):
         self._generate_crawlable(output_dir)
 
     def _generate_root(self, output_dir):
-        root_fn = os.path.join(output_dir, ROOT_CATALOG['output'])
+        root_fn = os.path.join(output_dir, CATALOGS['root'])
         f = open(root_fn, 'w')
-        tmpl = self.template_loader.load(ROOT_CATALOG['template'])
-        root_urn = 'urn:uuid:' + str(uuid.uuid3(self.uuid_master, ROOT_CATALOG['template']))
+        tmpl = self.template_loader.load(CATALOGS['root'])
+        root_urn = 'urn:uuid:' + str(uuid.uuid3(self.uuid_master, CATALOGS['root']))
         tmpl_vars = {'feed_author': self.author,
-                     'root': ROOT_CATALOG['output'],
+                     'catalogs': CATALOGS,
                      'title': self.root_title,
-                     'crawlable': CRAWLABLE_CATALOG['output'],
-                     'new': CRAWLABLE_CATALOG['new'],
                      'atom_id': root_urn,
                     }
         output = tmpl.generate(**tmpl_vars)
@@ -73,12 +75,12 @@ class Opds(object):
         f.close()
 
     def _generate_crawlable(self, output_dir):
-        crawlable_fn = os.path.join(output_dir, CRAWLABLE_CATALOG['output'])
+        crawlable_fn = os.path.join(output_dir, CATALOGS['crawlable'])
         f = open(crawlable_fn, 'w')
-        tmpl = self.template_loader.load(CRAWLABLE_CATALOG['template'])
-        crawlable_urn = 'urn:uuid:' + str(uuid.uuid3(self.uuid_master, CRAWLABLE_CATALOG['template']))
+        tmpl = self.template_loader.load(CATALOGS['crawlable'])
+        crawlable_urn = 'urn:uuid:' + str(uuid.uuid3(self.uuid_master, CATALOGS['crawlable']))
         tmpl_vars = {'feed_author': self.author,
-                     'root': ROOT_CATALOG['output'],
+                     'root': CATALOGS['root'],
                      'entries': self.entries,
                      'atom_id': crawlable_urn,
                     }
