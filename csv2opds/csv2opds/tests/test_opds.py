@@ -176,9 +176,9 @@ class TestOpds(object):
     def test_output_complete(self):
         """A Complete Acquisition Feed should include exactly as many OPDS Catalog Entries as the input"""
         crawlable_xml = self._catalogs_by_relation("http://opds-spec.org/crawlable")[0]
-        entries = len(crawlable_xml.xpath('atom:entry', namespaces=NSS))
+        num_entries = len(crawlable_xml.xpath('atom:entry', namespaces=NSS))
         expected = len(self.minimum_data)
-        assert_equal(expected, entries)
+        assert_equal(expected, num_entries)
 
     def test_links_in_all_feeds(self):
         """All OPDS Catalog Feed Documents should have at least one link"""
@@ -210,6 +210,21 @@ class TestOpds(object):
                 except AssertionError:
                     log.debug(etree.tostring(xml))
                     raise
+
+    def test_alphabetical_feeds(self):
+        """All alphabetical Navigation Feeds should include exactly as many OPDS Catalog Entries as the input"""
+        expected = len(self.minimum_data)
+        for feed_xml in self._catalogs_by_relation("subsection"):
+            num_entries = len(feed_xml.xpath('atom:entry', namespaces=NSS))
+            try:
+                assert_equal(expected, num_entries)
+            except AssertionError:
+                log.debug(etree.tostring(xml))
+                raise
+
+    def test_links_in_all_feeds(self):
+        """All OPDS Catalog Feed Documents should have at least one link"""
+        for xml in self._catalog_files_as_xml():
 
     def _root_catalog_as_xml(self):
         root_catalog_fn = os.path.join(self.tempdir, csv2opds.CATALOGS['root'])
