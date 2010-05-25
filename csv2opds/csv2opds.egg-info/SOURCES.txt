@@ -10,4 +10,5 @@ csv2opds.egg-info/entry_points.txt
 csv2opds.egg-info/not-zip-safe
 csv2opds.egg-info/requires.txt
 csv2opds.egg-info/top_level.txt
+csv2opds/templates/__init__.py
 scripts/csv2opds

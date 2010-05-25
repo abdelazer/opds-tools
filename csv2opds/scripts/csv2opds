@@ -20,15 +20,17 @@ log = logging.getLogger(__name__)
 def main():
     usage = "usage: %prog [options] CSV_FILES"
     parser = optparse.OptionParser(usage)
-    parser.add_option("-a", "--author", metavar="CATALOG_AUTHOR",  action="store", dest="catalog_author", default=False, help="Set CATALOG_AUTHOR for all generated Catalogs")
+    parser.add_option("-a", "--author", metavar="CATALOG_AUTHOR",  action="store", dest="author", default=False, help="Set CATALOG_AUTHOR for all generated Catalogs")
     parser.add_option("-o", "--output", metavar="OUTPUT_DIR",  action="store", dest="output_dir", default=False, help="Output Catalogs to OUTPUT_DIR")
     parser.add_option("-t", "--title",  metavar="ROOT_TITLE",  action="store", dest="root_title", default=False, help="Set title on Root Catalogs to ROOT_TITLE")
 
     (options, args) = parser.parse_args()
     if len(args) < 1:
         parser.print_help()
-    if not(options.catalog_author):
+    if not(options.author):
         parser.error("Please supply a Catalog author")
+    if not(options.output_dir):
+        parser.error("Please supply an Output directory")
 
     for csv_fn in args:
         opds = csv2opds.Opds(csv_fn, options)

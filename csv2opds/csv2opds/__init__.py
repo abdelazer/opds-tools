@@ -10,6 +10,7 @@ Copyright (c) 2010 Threepress Consulting Inc. All rights reserved.
 import csv
 import logging
 import os
+import StringIO
 import uuid
 
 import genshi.template 
@@ -43,7 +44,7 @@ import csv2opds.entry
 class Opds(object):
     def __init__(self, csv_fn, options):
         self.author = options.author
-        self.root_title = options.title if options.title else DEFAULT_TITLE
+        self.root_title = options.root_title if options.root_title else DEFAULT_TITLE
 
         template_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), 'templates'))
         self.template_loader = genshi.template.TemplateLoader([template_dir])
@@ -56,14 +57,13 @@ class Opds(object):
 
     def entries_from_csv(self, csv_fn, uuid_master):
         entries = []
-        csv_file = open(csv_fn)
-        sample = csv_file.read(1024)
+        # Why doesn't universal newline mode work?
+        csv_bytes = open(csv_fn, 'r').read().replace("\r\n", "\n").replace("\r", "\n")
+        sample = csv_bytes[0:1024]
         csv_dialect = csv.Sniffer().sniff(sample)
-        csv_file.seek(0)
-        for row in list(csv.reader(csv_file, dialect=csv_dialect))[1:]: # Always has a heading row
+        for row in list(csv.reader(StringIO.StringIO(csv_bytes), dialect=csv_dialect))[1:]: # Always has a heading row
             e = entry.Entry(row, uuid_master)
             entries.append(e)
-        csv_file.close()
         return entries
 
     def output_catalog(self, output_dir):
