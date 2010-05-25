@@ -10,40 +10,55 @@ updated = datetime.datetime.utcnow()
   <author>
     <name>${feed_author}</name>
   </author>  
-  <link rel="http://opds-spec.org/crawlable" href="${catalogs['crawlable']}" type="${CATALOG_TYPE}"/>
-  <link rel="http://opds-spec.org/featured"  href="${catalogs['featured']}"  type="${CATALOG_TYPE}"/>
-  <link rel="http://opds-spec.org/popular"   href="${catalogs['popular']}"   type="${CATALOG_TYPE}"/>
-  <link rel="http://opds-spec.org/new"       href="${catalogs['new']}"       type="${CATALOG_TYPE}"/>
+  <link rel="http://opds-spec.org/crawlable" href="${catalogs['crawlable'][0]}" type="${CATALOG_TYPE}"/>
+  <link rel="http://opds-spec.org/featured"  href="${catalogs['featured'][0]}"  type="${CATALOG_TYPE}"/>
+  <link rel="http://opds-spec.org/popular"   href="${catalogs['popular'][0]}"   type="${CATALOG_TYPE}"/>
+  <link rel="http://opds-spec.org/new"       href="${catalogs['new'][0]}"       type="${CATALOG_TYPE}"/>
 
-  <link rel="start" href="${catalogs['root']}" type="${CATALOG_TYPE}"/>
+  <link rel="start" href="${catalogs['root'][0]}" type="${CATALOG_TYPE}"/>
   <entry>
     <title>Bestsellers</title>
     <updated>${updated.isoformat()}</updated>
-    <id>${catalogs['popular']}</id>
+    <id>${catalogs['popular'][1]}</id>
+    <link type="application/atom+xml;type=feed;profile=opds-catalog"
+          rel="http://opds-spec.org/sort/popular"
+          href="${catalogs['popular'][0]}"/>
     <content type="text">Bestsellers</content>
   </entry>  
   <entry>
     <title>New</title>
     <updated>${updated.isoformat()}</updated>
-    <id>${catalogs['new']}</id>
+    <id>${catalogs['new'][1]}</id>
+    <link type="application/atom+xml;type=feed;profile=opds-catalog"
+          rel="http://opds-spec.org/sort/new"
+          href="${catalogs['new'][0]}"/>
     <content type="text">Newly published</content>
   </entry>  
   <entry>
     <title>Featured</title>
     <updated>${updated.isoformat()}</updated>
-    <id>${catalogs['featured']}</id>
+    <id>${catalogs['featured'][1]}</id>
+    <link type="application/atom+xml;type=feed;profile=opds-catalog"
+          rel="http://opds-spec.org/sort/featured"
+          href="${catalogs['featured'][0]}"/>
     <content type="text">Titles we recommend</content>
   </entry>  
   <entry>
     <title>All Titles (Alphabetical)</title>
     <updated>${updated.isoformat()}</updated>
-    <id>${catalogs['alphabetical']}</id>
+    <id>${catalogs['alphabetical'][1]}</id>
+    <link type="application/atom+xml;type=feed;profile=opds-catalog"
+          rel="subsection"
+          href="${catalogs['alphabetical'][0]}"/>
     <content type="text">Every title in alphabetical order</content>
   </entry>  
   <entry>
     <title>All Authors (Alphabetical)</title>
     <updated>${updated.isoformat()}</updated>
-    <id>${catalogs['authors']}</id>
+    <id>${catalogs['authors'][1]}</id>
+    <link type="application/atom+xml;type=feed;profile=opds-catalog"
+          rel="subsection"
+          href="${catalogs['authors'][0]}"/>
     <content type="text">Every author in alphabetical order</content>
   </entry>  
 </feed>

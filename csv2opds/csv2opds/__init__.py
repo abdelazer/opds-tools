@@ -14,17 +14,18 @@ import uuid
 
 import genshi.template 
 
-import entry
 
 log = logging.getLogger(__name__)
 
-UUID_KEY = uuid.UUID('31cce9f0-ed0f-4ce0-a4e5-da331ed7341e')
 NSS = {'atom': 'http://www.w3.org/2005/Atom',
        'opds': 'http://opds-spec.org/2010/catalog'
       } 
-CSV_TEMPLATE_HEADERS = ['isbn', 'title', 'authors', 'pubdate', 'publisher', 'price', 'currency', 
-                        'ePub_url', 'pdf_url', 'mobi_url', 'cover_thumbnail_url', 
-                        'language', 'description', 'rights', 'publisher_id', 'rank', 'featured']
+CSV_TEMPLATE_HEADERS = ['title', 'authors', 'acquisition_url', 'description'
+                       ]
+                        #'isbn', 'pubdate', 'publisher', 'price', 'currency', 
+                        #'ePub_url', 'pdf_url', 'mobi_url', 'cover_thumbnail_url', 
+                        #'language', 'description', 'rights', 'publisher_id', 'rank', 'featured']
+UUID_KEY = uuid.UUID('31cce9f0-ed0f-4ce0-a4e5-da331ed7341e')
 
 CATALOGS = {'root': 'opds.xml',
             'crawlable': 'crawlable.xml',
@@ -36,6 +37,8 @@ CATALOGS = {'root': 'opds.xml',
            }
 CATALOG_TYPE = "application/atom+xml;type=feed;profile=opds-catalog"
 DEFAULT_TITLE = 'OPDS Catalog'
+
+import csv2opds.entry
 
 class Opds(object):
     def __init__(self, csv_fn, options):
@@ -54,7 +57,7 @@ class Opds(object):
         sample = csv_file.read(1024)
         csv_dialect = csv.Sniffer().sniff(sample)
         csv_file.seek(0)
-        for row in list(csv.DictReader(csv_file, fieldnames=CSV_TEMPLATE_HEADERS, dialect=csv_dialect))[1:]: # Always has a heading row
+        for row in list(csv.reader(csv_file, dialect=csv_dialect))[1:]: # Always has a heading row
             e = entry.Entry(row, uuid_master)
             entries.append(e)
         csv_file.close()
@@ -68,9 +71,15 @@ class Opds(object):
         root_fn = os.path.join(output_dir, CATALOGS['root'])
         f = open(root_fn, 'w')
         tmpl = self.template_loader.load(CATALOGS['root'])
-        root_urn = 'urn:uuid:' + str(uuid.uuid3(self.uuid_master, CATALOGS['root']))
+        root_uuid = uuid.uuid3(self.uuid_master, CATALOGS['root'])
+        root_urn = 'urn:uuid:' + str(root_uuid)
+        catalogs = {}
+        for k, v in CATALOGS.iteritems():
+            nav_entry_uuid = uuid.uuid3(root_uuid, v)
+            nav_entry_urn = 'urn:uuid:' + str(nav_entry_uuid)
+            catalogs[k] = [v, nav_entry_urn]
         tmpl_vars = {'feed_author': self.author,
-                     'catalogs': CATALOGS,
+                     'catalogs': catalogs,
                      'title': self.root_title,
                      'atom_id': root_urn,
                     }

@@ -13,5 +13,8 @@ updated = datetime.datetime.utcnow()
       <name>${a}</name>
     </author>  
   </py:for>
+  <link type="${e.acquisition_type}"
+        rel="http://opds-spec.org/acquisition" 
+        href="${e.acquisition_url}"/>
   <content type="text">${e.content}</content>
 </entry>
