@@ -3,7 +3,8 @@ import datetime
 from csv2opds import CATALOG_TYPE
 updated = datetime.datetime.utcnow()
 ?>
-<feed xmlns="http://www.w3.org/2005/Atom">
+<feed xmlns="http://www.w3.org/2005/Atom"
+      xmlns:py="http://genshi.edgewall.org/">
   <title>${title}</title>
   <updated>${updated.isoformat()}</updated>
   <id>${atom_id}</id>
@@ -11,12 +12,12 @@ updated = datetime.datetime.utcnow()
     <name>${feed_author}</name>
   </author>  
   <link rel="http://opds-spec.org/crawlable" href="${catalogs['crawlable'][0]}" type="${CATALOG_TYPE}"/>
-  <link rel="http://opds-spec.org/featured"  href="${catalogs['featured'][0]}"  type="${CATALOG_TYPE}"/>
-  <link rel="http://opds-spec.org/popular"   href="${catalogs['popular'][0]}"   type="${CATALOG_TYPE}"/>
-  <link rel="http://opds-spec.org/new"       href="${catalogs['new'][0]}"       type="${CATALOG_TYPE}"/>
+  <link rel="http://opds-spec.org/featured"  href="${catalogs['featured'][0]}"  type="${CATALOG_TYPE}" py:if="featured_catalog"/>
+  <link rel="http://opds-spec.org/popular"   href="${catalogs['popular'][0]}"   type="${CATALOG_TYPE}" py:if="popular_catalog"/>
+  <link rel="http://opds-spec.org/new"       href="${catalogs['new'][0]}"       type="${CATALOG_TYPE}" py:if="new_catalog"/>
 
   <link rel="start" href="${catalogs['root'][0]}" type="${CATALOG_TYPE}"/>
-  <entry>
+  <entry py:if="popular_catalog">
     <title>Bestsellers</title>
     <updated>${updated.isoformat()}</updated>
     <id>${catalogs['popular'][1]}</id>
@@ -25,7 +26,7 @@ updated = datetime.datetime.utcnow()
           href="${catalogs['popular'][0]}"/>
     <content type="text">Bestsellers</content>
   </entry>  
-  <entry>
+  <entry py:if="new_catalog">
     <title>New</title>
     <updated>${updated.isoformat()}</updated>
     <id>${catalogs['new'][1]}</id>
@@ -34,7 +35,7 @@ updated = datetime.datetime.utcnow()
           href="${catalogs['new'][0]}"/>
     <content type="text">Newly published</content>
   </entry>  
-  <entry>
+  <entry py:if="featured_catalog">
     <title>Featured</title>
     <updated>${updated.isoformat()}</updated>
     <id>${catalogs['featured'][1]}</id>

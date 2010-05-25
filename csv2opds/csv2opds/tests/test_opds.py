@@ -123,6 +123,25 @@ class TestOpds(object):
                 log.warn('Validation errors:\n%s' % error_log)
                 raise
 
+    def test_minimum_output_has_no_new_relation(self):
+        """A minimal OPDS Catalog should not include a "new" Acquisition Feed"""
+        new_catalogs = len(self._catalogs_by_relation("http://opds-spec.org/new"))
+        expected = 0
+        assert_equal(expected, new_catalogs)
+
+    def test_minimum_output_has_no_popular_relation(self):
+        """A minimal OPDS Catalog should not include a "popular" Acquisition Feed"""
+        popular_catalogs = len(self._catalogs_by_relation("http://opds-spec.org/popular"))
+        expected = 0
+        assert_equal(expected, popular_catalogs)
+
+    def test_minimum_output_has_no_featured_relation(self):
+        """A minimal OPDS Catalog should not include a "featured" Acquisition Feed"""
+        featured_catalogs = len(self._catalogs_by_relation("http://opds-spec.org/featured"))
+        expected = 0
+        assert_equal(expected, featured_catalogs)
+
+
     def test_output_has_crawlable(self):
         """An OPDS Catalog should include a Complete Acquisition Feed"""
         xml = self._root_catalog_as_xml()
@@ -134,7 +153,7 @@ class TestOpds(object):
         """A complex OPDS Catalog should include a "popular" Acquisition Feed"""
         raise SkipTest
         xml = self._root_catalog_as_xml()
-        relations = len(xml.xpath('atom:link[@rel="http://opds-spec.org/popular"]', namespaces=NSS))
+        relations = len(xml.xpath('.//atom:link[@rel="http://opds-spec.org/popular"]', namespaces=NSS))
         expected = 1
         assert_equal(expected, relations)
 
@@ -142,7 +161,7 @@ class TestOpds(object):
         """A complex OPDS Catalog should include a "new" Acquisition Feed"""
         raise SkipTest
         xml = self._root_catalog_as_xml()
-        relations = len(xml.xpath('atom:link[@rel="http://opds-spec.org/new"]', namespaces=NSS))
+        relations = len(xml.xpath('.//atom:link[@rel="http://opds-spec.org/new"]', namespaces=NSS))
         expected = 1
         assert_equal(expected, relations)
 
@@ -150,16 +169,13 @@ class TestOpds(object):
         """A complex OPDS Catalog should include a "featured" Acquisition Feed"""
         raise SkipTest
         xml = self._root_catalog_as_xml()
-        relations = len(xml.xpath('atom:link[@rel="http://opds-spec.org/featured"]', namespaces=NSS))
+        relations = len(xml.xpath('.//atom:link[@rel="http://opds-spec.org/featured"]', namespaces=NSS))
         expected = 1
         assert_equal(expected, relations)
 
     def test_output_complete(self):
         """A Complete Acquisition Feed should include exactly as many OPDS Catalog Entries as the input"""
-        xml = self._root_catalog_as_xml()
-        crawlable_link_href = xml.xpath('/atom:feed/atom:link[@rel="http://opds-spec.org/crawlable"]/@href', namespaces=NSS)[0]
-        crawlable_fn = os.path.join(self.tempdir, crawlable_link_href)
-        crawlable_xml = etree.parse(crawlable_fn)
+        crawlable_xml = self._catalogs_by_relation("http://opds-spec.org/crawlable")[0]
         entries = len(crawlable_xml.xpath('atom:entry', namespaces=NSS))
         expected = len(self.minimum_data)
         assert_equal(expected, entries)
@@ -207,6 +223,15 @@ class TestOpds(object):
             xml = etree.parse(f)
             catalogs_as_xml.append(xml)
         return catalogs_as_xml
+
+    def _catalogs_by_relation(self, relation):
+        root_xml = self._root_catalog_as_xml()
+        catalogs = []
+        for feed_href in set(root_xml.xpath('.//atom:link[@rel="%s"]/@href' % relation, namespaces=NSS)):
+            feed_fn = os.path.join(self.tempdir, feed_href)
+            feed_xml = etree.parse(feed_fn)
+            catalogs.append(feed_xml)
+        return catalogs
 
     def _write_csv(self, csv_fn, data):
         writer = csv.writer(open(csv_fn, "wb")) 

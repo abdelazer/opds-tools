@@ -50,6 +50,9 @@ class Opds(object):
 
         self.uuid_master = uuid.uuid3(UUID_KEY, self.author)
         self.entries = self.entries_from_csv(csv_fn, self.uuid_master)
+        self.featured_catalog = any([e.featured for e in self.entries])
+        self.new_catalog = any([e.pubdate for e in self.entries])
+        self.popular_catalog = any([e.rank for e in self.entries])
 
     def entries_from_csv(self, csv_fn, uuid_master):
         entries = []
@@ -81,6 +84,9 @@ class Opds(object):
         tmpl_vars = {'feed_author': self.author,
                      'catalogs': catalogs,
                      'title': self.root_title,
+                     'featured_catalog': self.featured_catalog,
+                     'new_catalog': self.new_catalog,
+                     'popular_catalog': self.popular_catalog,
                      'atom_id': root_urn,
                     }
         output = tmpl.generate(**tmpl_vars)
