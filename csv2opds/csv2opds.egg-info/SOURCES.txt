@@ -1,6 +1,8 @@
+README
 setup.cfg
 setup.py
 csv2opds/__init__.py
+csv2opds/entry.py
 csv2opds.egg-info/PKG-INFO
 csv2opds.egg-info/SOURCES.txt
 csv2opds.egg-info/dependency_links.txt
@@ -8,3 +10,4 @@ csv2opds.egg-info/entry_points.txt
 csv2opds.egg-info/not-zip-safe
 csv2opds.egg-info/requires.txt
 csv2opds.egg-info/top_level.txt
+scripts/csv2opds

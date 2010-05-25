@@ -1,6 +1,6 @@
 Metadata-Version: 1.0
 Name: csv2opds
-Version: 0.1dev
+Version: 0.1
 Summary: csv2opds generates OPDS Catalogs from a CSV template
 Home-page: http://code.google.com/p/opds-tools/
 Author: Keith Fahlgren

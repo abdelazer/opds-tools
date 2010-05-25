@@ -69,6 +69,7 @@ class Opds(object):
     def output_catalog(self, output_dir):
         self._generate_root(output_dir)
         self._generate_crawlable(output_dir)
+        self._generate_alphabeticals(output_dir)
 
     def _generate_root(self, output_dir):
         root_fn = os.path.join(output_dir, CATALOGS['root'])
@@ -93,16 +94,44 @@ class Opds(object):
         f.write(output.render())
         f.close()
 
+    def _generate_alphabeticals(self, output_dir):
+        for cat_key in ['alphabetical', 'authors']:
+            fn = CATALOGS[cat_key]
+            urn = 'urn:uuid:' + str(uuid.uuid3(self.uuid_master, fn))
+            sorted_entries = []
+            title = ''
+            if cat_key == 'alphabetical':
+                sorted_entries = sorted(self.entries, cmp=lambda x,y: cmp(self._sortable_title(x.title), self._sortable_title(y.title)))
+                title = 'All Titles (Alphabetical)'
+            elif cat_key == 'authors':
+                sorted_entries = sorted(self.entries, cmp=lambda x,y: cmp(x.authors[0].lower(), y.authors[0].lower()))
+                title = 'All Authors (Alphabetical)'
+            self._generate_acquisition_feed(fn, output_dir, title, sorted_entries, urn)
+
     def _generate_crawlable(self, output_dir):
-        crawlable_fn = os.path.join(output_dir, CATALOGS['crawlable'])
-        f = open(crawlable_fn, 'w')
-        tmpl = self.template_loader.load(CATALOGS['crawlable'])
-        crawlable_urn = 'urn:uuid:' + str(uuid.uuid3(self.uuid_master, CATALOGS['crawlable']))
+        urn = 'urn:uuid:' + str(uuid.uuid3(self.uuid_master, CATALOGS['crawlable']))
+        title = 'Complete Crawlable Acquisition Feed'
+        self._generate_acquisition_feed(CATALOGS['crawlable'], output_dir, title, self.entries, urn)
+
+    def _generate_acquisition_feed(self, fn, output_dir, title, entries, urn):
+        full_fn = os.path.join(output_dir, fn)
+        f = open(full_fn, 'w')
+        tmpl = self.template_loader.load('acquisition_feed.xml')
         tmpl_vars = {'feed_author': self.author,
-                     'catalogs': CATALOGS,
-                     'entries': self.entries,
-                     'atom_id': crawlable_urn,
+                     'CATALOGS': CATALOGS,
+                     'feed_title': title,
+                     'entries': entries,
+                     'filename': fn,
+                     'atom_id': urn,
                     }
         output = tmpl.generate(**tmpl_vars)
         f.write(output.render())
         f.close()
+
+    def _sortable_title(self, t):
+        to_strip = ['an', 'a', 'the']
+        final_title = t.lower()
+        for ts in to_strip:
+            final_title = final_title.lstrip(ts + ' ')
+        return final_title.strip()
+

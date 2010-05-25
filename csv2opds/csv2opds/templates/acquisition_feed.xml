@@ -6,17 +6,17 @@ updated = datetime.datetime.utcnow()
 <feed xmlns="http://www.w3.org/2005/Atom"
       xmlns:py="http://genshi.edgewall.org/"
       xmlns:xi="http://www.w3.org/2001/XInclude">
-  <title>Crawlable OPDS Catalog</title>
+  <title>${feed_title}</title>
   <updated>${updated.isoformat()}</updated>
   <id>${atom_id}</id>
   <author>
     <name>${feed_author}</name>
   </author>  
   <link rel="self" 
-        href="${catalogs['crawlable']}"
+        href="${filename}"
         type="${CATALOG_TYPE}"/>
   <link rel="start" 
-        href="${catalogs['root']}"
+        href="${CATALOGS['root']}"
         type="${CATALOG_TYPE}"/>
   <xi:include href="entry.xml" />
   <py:for each="e in entries">

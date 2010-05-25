@@ -222,10 +222,6 @@ class TestOpds(object):
                 log.debug(etree.tostring(xml))
                 raise
 
-    def test_links_in_all_feeds(self):
-        """All OPDS Catalog Feed Documents should have at least one link"""
-        for xml in self._catalog_files_as_xml():
-
     def _root_catalog_as_xml(self):
         root_catalog_fn = os.path.join(self.tempdir, csv2opds.CATALOGS['root'])
         xml = etree.parse(root_catalog_fn)
