@@ -1,0 +1,9 @@
+setup.cfg
+setup.py
+pragle/__init__.py
+pragle.egg-info/PKG-INFO
+pragle.egg-info/SOURCES.txt
+pragle.egg-info/dependency_links.txt
+pragle.egg-info/entry_points.txt
+pragle.egg-info/not-zip-safe
+pragle.egg-info/top_level.txt
