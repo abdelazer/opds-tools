@@ -20,12 +20,17 @@ class OPDSCatalogValidator(object):
         self.validator = etree.RelaxNG(etree.parse(opds_catalog_rng))
         self.error_log = []
 
-    def is_valid(self, xml_fn):
+    def is_valid(self, xml_or_xml_fn):
         """Validate the OPDS Catalog at the supplied filename against the OPDS Catalog schemas"""
-        xml = etree.parse(xml_fn)
-        valid = self.validator.validate(xml)
-        if valid:
-            return True
-        else:
-            self.error_log = self.validator.error_log
+        try:
+            xml = xml_or_xml_fn if 'xpath' in dir(xml_or_xml_fn) else etree.parse(xml_or_xml_fn)
+            valid = self.validator.validate(xml)
+            if valid:
+                return True
+            else:
+                self.error_log = self.validator.error_log
+                return False
+        except Exception, e:
+            log.warn(e)
+            self.error_log.append(e)
             return False

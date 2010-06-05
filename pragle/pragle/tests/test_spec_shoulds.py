@@ -24,7 +24,7 @@ class TestSpecShoulds(object):
         """[SPEC] Producers of OPDS Catalogs SHOULD produce OPDS Catalog Feed Documents and OPDS Catalog Entry Documents that are conformant to both Atom and the OPDS Catalog RELAX NG schemas"""
         raise SkipTest
 
-    def test_should_contain_an_atom_link_element_with_a_link_relation_of_start__which_references_the_opds_catalog_root_resource(self):
+    def test_should_contain_an_atom_link_element_with_a_link_relation_of_start_which_references_the_opds_catalog_root_resource(self):
         """[SPEC] Each OPDS Catalog Feed Document SHOULD contain an atom:link element with a link relation of start, which references the OPDS Catalog Root Resource"""
         raise SkipTest
 
@@ -36,7 +36,7 @@ class TestSpecShoulds(object):
         """[SPEC] Links to Navigation Feeds SHOULD use the type attribute application/atom+xml;type=feed;profile=opds-catalog"""
         raise SkipTest
 
-    def test_should_be_used_if_no_other_relation__to_a_navigation_feed__is_more_appropriate(self):
+    def test_should_be_used_if_no_other_relation_to_a_navigation_feed_is_more_appropriate(self):
         """[SPEC] The relation subsection SHOULD be used if no other relation [to a Navigation Feed] is more appropriate"""
         raise SkipTest
 
@@ -48,7 +48,7 @@ class TestSpecShoulds(object):
         """[SPEC] OPDS Catalog Feed Documents SHOULD include links to other available Acquisition and Navigation Feeds and other related Resources"""
         raise SkipTest
 
-    def test_should_use_the_media_type_associated_to_opds_catalogs__application_atom_xml_type_feed_profile_opds_catalog(self):
+    def test_should_use_the_media_type_associated_to_opds_catalogs_application_atom_xml_type_feed_profile_opds_catalog(self):
         """[SPEC] In an OpenSearch description document, the search interface SHOULD use the media type associated to OPDS Catalogs: application/atom+xml;type=feed;profile=opds-catalog"""
         raise SkipTest
 
@@ -56,11 +56,11 @@ class TestSpecShoulds(object):
         """[SPEC] OPDS Catalog Feed Documents SHOULD contain one atom:link element with a rel attribute value of self"""
         raise SkipTest
 
-    def test_should_include_the_following_metadata_elements__if_available__atom_category__atom_rights__dc_extent__dc_identifier__dc_issued__dc_language__dc_publisher__and_opds_price(self):
+    def test_should_include_the_following_metadata_elements_if_available_atom_category_atom_rights_dc_extent_dc_identifier_dc_issued_dc_language_dc_publisher_and_opds_price(self):
         """[SPEC] Partial Catalog Entries SHOULD include the following metadata elements, if available: atom:category, atom:rights, dc:extent, dc:identifier, dc:issued, dc:language, dc:publisher, and opds:price"""
         raise SkipTest
 
-    def test_should_be_used_to_identify_the_represented_publication__if_appropriate_metadata_is_available(self):
+    def test_should_be_used_to_identify_the_represented_publication_if_appropriate_metadata_is_available(self):
         """[SPEC] [In an OPDS Catalog Entry] [o]ne or more dc:identifier elements SHOULD be used to identify the represented Publication, if appropriate metadata is available"""
         raise SkipTest
 
@@ -72,7 +72,7 @@ class TestSpecShoulds(object):
         """[SPEC] OPDS Catalog Entries SHOULD use atom:author to represent the Publication's creators """
         raise SkipTest
 
-    def test_should_use_atom_category_to_represent_the_publication_s_category__keywords__key_phrases__or_classification_codes_(self):
+    def test_should_use_atom_category_to_represent_the_publication_s_category_keywords_key_phrases_or_classification_codes_(self):
         """[SPEC] OPDS Catalog Entries SHOULD use atom:category to represent the Publication's category, keywords, key phrases, or classification codes """
         raise SkipTest
 
@@ -84,7 +84,7 @@ class TestSpecShoulds(object):
         """[SPEC] OPDS Catalog Entries SHOULD use atom:summary and/or atom:content to describe the Publication """
         raise SkipTest
 
-    def test_should_include_either_atom_summary_or_atom_content_elements_or_both_to_provide_a_description__summary__abstract__or_excerpt_of_the_publication(self):
+    def test_should_include_either_atom_summary_or_atom_content_elements_or_both_to_provide_a_description_summary_abstract_or_excerpt_of_the_publication(self):
         """[SPEC] OPDS Catalog Entries SHOULD include either atom:summary or atom:content elements or both to provide a description, summary, abstract, or excerpt of the Publication"""
         raise SkipTest
 
@@ -112,7 +112,7 @@ class TestSpecShoulds(object):
         """[SPEC] OPDS Catalog providers SHOULD use Partial Catalog Entries in all Acquisition Feeds except Complete Acquisition Feeds"""
         raise SkipTest
 
-    def test_should_contain_an_atom_link_element_with_a_the_relation_of_http___opds_spec_org_crawlable_that_references_the_complete_acquisition_feed_resource(self):
+    def test_should_contain_an_atom_link_element_with_a_the_relation_of_http_opds_spec_org_crawlable_that_references_the_complete_acquisition_feed_resource(self):
         """[SPEC] If available, each OPDS Catalog Feed Document in the OPDS Catalog SHOULD contain an atom:link element with a the relation of http://opds-spec.org/crawlable that references the Complete Acquisition Feed Resource"""
         raise SkipTest
 
@@ -128,11 +128,11 @@ class TestSpecShoulds(object):
         """[SPEC] Relations to OPDS Catalog Feed Document and OPDS Catalog Entry Document Resources SHOULD use a profile parameter"""
         raise SkipTest
 
-    def test_should_be__application_atom_xml_type_entry_profile_opds_catalog(self):
+    def test_should_be_application_atom_xml_type_entry_profile_opds_catalog(self):
         """[SPEC] The complete media type for a relation to an OPDS Catalog Entry Document Resource SHOULD be: application/atom+xml;type=entry;profile=opds-catalog"""
         raise SkipTest
 
-    def test_should_be__application_atom_xml_type_feed_profile_opds_catalog(self):
+    def test_should_be_application_atom_xml_type_feed_profile_opds_catalog(self):
         """[SPEC] The complete media type for a relation to an OPDS Catalog Feed Document Resource SHOULD be: application/atom+xml;type=feed;profile=opds-catalog"""
         raise SkipTest
 

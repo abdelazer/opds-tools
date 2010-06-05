@@ -35,7 +35,7 @@ class TestSpecShoulds(object):
         """[SPEC] OPDS Catalog Entries ... MUST NOT use dc:title"""
         raise SkipTest
 
-    def test_must_not_change_when_the_opds_catalog_entry_is__relocated__migrated__syndicated__republished__exported__or_imported(self):
+    def test_must_not_change_when_the_opds_catalog_entry_is_relocated_migrated_syndicated_republished_exported_or_imported(self):
         """[SPEC] An atom:id identifying an OPDS Catalog Entry MUST NOT change when the OPDS Catalog Entry is "relocated, migrated, syndicated, republished, exported, or imported"""
         raise SkipTest
 

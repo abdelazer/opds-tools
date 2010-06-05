@@ -10,6 +10,8 @@ import glob
 import logging
 import os.path
 
+from lxml import etree
+
 from nose.tools import *
 
 import pragle.opdscatalogvalidator
@@ -22,8 +24,22 @@ class TestOPDSCatalogValidator(object):
         self.testfiles_dir = os.path.join(os.path.dirname(__file__), 'files')
         self.opds_validator = pragle.opdscatalogvalidator.OPDSCatalogValidator()
 
+    def test_valid_fn(self):
+        """OPDS Catalog Documents should be able to be validated by filename"""
+        xml_fn = os.path.join(self.testfiles_dir, 'catalog.root.canonical.xml')
+        valid = self.opds_validator.is_valid(xml_fn)
+        assert valid
+
+    def test_valid_xml(self):
+        """OPDS Catalog Documents should be able to be validated from parsed XML input"""
+        xml_fn = os.path.join(self.testfiles_dir, 'catalog.root.canonical.xml')
+        xml = etree.parse(xml_fn)
+        valid = self.opds_validator.is_valid(xml)
+        assert valid
+
+
     def test_valid_smoke(self):
-        """All valid OPDS Catalog Documents collected for smoketesting should pass validation."""
+        """All valid OPDS Catalog Documents collected for smoketesting should pass validation"""
         smoke_dir = os.path.join(self.testfiles_dir, 'smoke')
         smoke_fn_glob = os.path.join(smoke_dir, '*.valid*.xml')
         for xml_fn in glob.glob(smoke_fn_glob):
@@ -35,7 +51,7 @@ class TestOPDSCatalogValidator(object):
                 raise AssertionError
 
     def test_invalid_smoke(self):
-        """All invalid OPDS Catalog Documents collected for smoketesting should not pass validation."""
+        """All invalid OPDS Catalog Documents collected for smoketesting should not pass validation"""
         smoke_dir = os.path.join(self.testfiles_dir, 'smoke')
         smoke_fn_glob = os.path.join(smoke_dir, '*.invalid*.xml')
         for xml_fn in glob.glob(smoke_fn_glob):

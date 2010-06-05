@@ -19,19 +19,19 @@ log = logging.getLogger(__name__)
 
 class TestSpecShouldNots(object):
 
-    def test_should_not_use_dc_creator__to_represent_the_publication_s_creators_(self):
+    def test_should_not_use_dc_creator_to_represent_the_publication_s_creators_(self):
         """[SPEC] OPDS Catalog Entries ... SHOULD NOT use dc:creator [to represent the Publication's creators]"""
         raise SkipTest
 
-    def test_should_not_use_dc_subject__to_represent_the_publication_s_category__keywords__key_phrases__or_classification_codes_(self):
+    def test_should_not_use_dc_subject_to_represent_the_publication_s_category_keywords_key_phrases_or_classification_codes_(self):
         """[SPEC] OPDS Catalog Entries ... SHOULD NOT use dc:subject [to represent the Publication's category, keywords, key phrases, or classification codes]"""
         raise SkipTest
 
-    def test_should_not_use_dc_rights__to_represent_rights_held_in_and_over_the_publication_(self):
+    def test_should_not_use_dc_rights_to_represent_rights_held_in_and_over_the_publication_(self):
         """[SPEC] OPDS Catalog Entries ... SHOULD NOT use dc:rights [to represent rights held in and over the Publication]"""
         raise SkipTest
 
-    def test_should_not_use_dc_description_or_dc_abstract__to_describe_the_publication_(self):
+    def test_should_not_use_dc_description_or_dc_abstract_to_describe_the_publication_(self):
         """[SPEC] OPDS Catalog Entries ... SHOULD NOT use dc:description or dc:abstract [to describe the Publication]"""
         raise SkipTest
 
