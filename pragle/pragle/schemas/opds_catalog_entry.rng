@@ -40,27 +40,31 @@
         <zeroOrMore>
           <ref name="dcFormat"/>
         </zeroOrMore>
-        <ref name="undefinedOPDSContent"/>
+        <ref name="undefinedOPDSContentExceptPrice"/>
       </element>
     </define>
   </include>
   <start>
     <ref name="atomEntry"/>
   </start>
-  <define name="undefinedOPDSContent">
+  <define name="undefinedOPDSContentExceptPrice">
     <zeroOrMore>
       <choice>
         <text/>
-        <ref name="anyOPDSForeignElement"/>
+        <ref name="anyOPDSForeignElementExceptPrice"/>
       </choice>
     </zeroOrMore>
   </define>
-  <define name="anyOPDSForeignElement">
+  <define name="anyOPDSForeignElementExceptPrice">
     <element>
       <anyName>
         <except>
           <nsName ns="http://www.w3.org/2005/Atom"/>
-          <nsName ns="http://opds-spec.org/2010/catalog"/>
+          <nsName ns="http://opds-spec.org/2010/catalog">
+            <except>
+              <name>opds:price</name>
+            </except>
+          </nsName>
         </except>
       </anyName>
       <zeroOrMore>
@@ -76,15 +80,27 @@
   </define>
   <define name="dcFormat">
     <element name="dc:format">
-      <text/>
+      <ref name="atomCommonAttributes"/>
+      <zeroOrMore>
+        <choice>
+          <text/>
+          <ref name="anyElement"/>
+        </choice>
+      </zeroOrMore>
     </element>
   </define>
   <define name="opdsPrice">
     <element name="opds:price">
+      <ref name="atomCommonAttributes"/>
       <attribute name="currencycode">
         <ref name="opdsPriceCurrencyCode"/>
       </attribute>
-      <text/>
+      <zeroOrMore>
+        <choice>
+          <text/>
+          <ref name="anyElement"/>
+        </choice>
+      </zeroOrMore>
     </element>
   </define>
   <define name="opdsPriceCurrencyCode">

@@ -38,6 +38,17 @@ class TestOPDSCatalogValidator(object):
         assert valid
 
 
+    def test_valid_canonical(self):
+        """All OPDS Catalog Documents collected for canonical examples in other tests should pass validation"""
+        canonical_fn_glob = os.path.join(self.testfiles_dir, '*canonical*.xml')
+        for xml_fn in glob.glob(canonical_fn_glob):
+            log.debug('Attempting validation of %s' % xml_fn)
+            valid = self.opds_validator.is_valid(xml_fn)
+            if not(valid):
+                error_log = self.opds_validator.error_log
+                log.debug('Validation errors:\n%s' % error_log)
+                raise AssertionError
+
     def test_valid_smoke(self):
         """All valid OPDS Catalog Documents collected for smoketesting should pass validation"""
         smoke_dir = os.path.join(self.testfiles_dir, 'smoke')

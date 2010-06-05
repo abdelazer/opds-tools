@@ -17,6 +17,7 @@ from nose.plugins.skip import SkipTest
 
 import pragle.opdscatalogvalidator
 
+from pragle import NSS
 
 log = logging.getLogger(__name__)
 
@@ -24,6 +25,8 @@ class TestSpecShoulds(object):
     def setup(self):
         self.testfiles_dir = os.path.join(os.path.dirname(__file__), 'files')
         self.testfiles_musts_dir = os.path.join(self.testfiles_dir, 'musts')
+        canonical_acq_catalog_fn = os.path.join(self.testfiles_dir, 'catalog.acquisition.canonical.xml')
+        self.canonical_acq_catalog_xml = etree.parse(canonical_acq_catalog_fn)
         canonical_root_catalog_fn = os.path.join(self.testfiles_dir, 'catalog.root.canonical.xml')
         self.canonical_root_catalog_xml = etree.parse(canonical_root_catalog_fn)
         self.opds_validator = pragle.opdscatalogvalidator.OPDSCatalogValidator()
@@ -83,7 +86,15 @@ class TestSpecShoulds(object):
 
     def test_must_be_identified_by_an_atom_id(self):
         """[SPEC] OPDS Catalog Entries MUST be identified by an atom:id"""
-        raise SkipTest
+        valid_before = self.opds_validator.is_valid(self.canonical_acq_catalog_xml)
+
+        entry = self.canonical_acq_catalog_xml.xpath('/atom:feed/atom:entry[1]', namespaces=NSS)[0]
+        entry_atom_id = entry.xpath('atom:id', namespaces=NSS)[0]
+        entry.remove(entry_atom_id)
+
+        after = etree.tostring(self.canonical_acq_catalog_xml)
+        valid_after  = self.opds_validator.is_valid(StringIO(after))
+        assert valid_before and not(valid_after)
 
     def test_must_include_an_atom_updated_element(self):
         """[SPEC] OPDS Catalog Entries MUST include an atom:updated element"""
