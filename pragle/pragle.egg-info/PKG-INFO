@@ -1,6 +1,6 @@
 Metadata-Version: 1.0
 Name: pragle
-Version: 0.1dev
+Version: 0.1
 Summary: Pragle is a Python library for validating OPDS Catalogs
 Home-page: http://code.google.com/p/opds-tools/
 Author: Keith Fahlgren

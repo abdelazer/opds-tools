@@ -1,0 +1,7 @@
+"""[SPEC] OPDS Catalog Entries ... SHOULD NOT use dc:creator [to represent the Publication's creators]"""
+"""[SPEC] OPDS Catalog Entries ... SHOULD NOT use dc:subject [to represent the Publication's category, keywords, key phrases, or classification codes]"""
+"""[SPEC] OPDS Catalog Entries ... SHOULD NOT use dc:rights [to represent rights held in and over the Publication]"""
+"""[SPEC] OPDS Catalog Entries ... SHOULD NOT use dc:description or dc:abstract [to describe the Publication]"""
+"""[SPEC] [A]n atom:summary element ... SHOULD NOT duplicate the content of atom:title or atom:content"""
+"""[SPEC] If an OPDS Catalog Entry includes both atom:content and atom:summary, the atom:content SHOULD NOT be included in the Partial Catalog Entry"""
+"""[SPEC] More than one atom:link with either [http://opds-spec.org/cover or http://opds-spec.org/thumbnail] relation SHOULD NOT be provided for a single OPDS Catalog Entry"""

@@ -16,9 +16,13 @@ setup(name='pragle',
       license='BSD',
       packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
       include_package_data=True,
+      package_data={
+                    'pragle': ['schemas/*.*'],
+      },
       zip_safe=False,
       install_requires=[
           # -*- Extra requirements: -*-
+          'lxml >= 2.2',
       ],
       entry_points="""
       # -*- Entry points: -*-

@@ -1,0 +1,5 @@
+"""[SPEC] A Navigation Feed MUST NOT contain OPDS Catalog Entries"""
+"""[SPEC] dc:identifier elements ... MUST NOT identify the OPDS Catalog Entry"""
+"""[SPEC] A dc:issued element ... MUST NOT represent any date related to the OPDS Catalog Entry"""
+"""[SPEC] OPDS Catalog Entries ... MUST NOT use dc:title"""
+"""[SPEC] An atom:id identifying an OPDS Catalog Entry MUST NOT change when the OPDS Catalog Entry is "relocated, migrated, syndicated, republished, exported, or imported"""

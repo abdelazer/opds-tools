@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar xmlns:dc="http://purl.org/dc/terms/" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:opds="http://opds-spec.org/2010/catalog" xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+  <include href="atom.rng">
+    <define name="atomLink">
+      <element name="atom:link">
+        <s:rule context="atom:link[@rel='http://opds-spec.org/acquisition/buy']">
+          <s:assert test="opds:price">An atom:link with a rel attribute of 'http://opds-spec.org/acquisition/buy' must have at least one opds:price element.</s:assert>
+        </s:rule>
+        <ref name="atomCommonAttributes"/>
+        <attribute name="href">
+          <ref name="atomUri"/>
+        </attribute>
+        <optional>
+          <attribute name="rel">
+            <choice>
+              <ref name="atomNCName"/>
+              <ref name="atomUri"/>
+            </choice>
+          </attribute>
+        </optional>
+        <optional>
+          <attribute name="type">
+            <ref name="atomMediaType"/>
+          </attribute>
+        </optional>
+        <optional>
+          <attribute name="hreflang">
+            <ref name="atomLanguageTag"/>
+          </attribute>
+        </optional>
+        <optional>
+          <attribute name="title"/>
+        </optional>
+        <optional>
+          <attribute name="length"/>
+        </optional>
+        <zeroOrMore>
+          <ref name="opdsPrice"/>
+        </zeroOrMore>
+        <zeroOrMore>
+          <ref name="dcFormat"/>
+        </zeroOrMore>
+        <ref name="undefinedOPDSContent"/>
+      </element>
+    </define>
+  </include>
+  <start>
+    <ref name="atomEntry"/>
+  </start>
+  <define name="undefinedOPDSContent">
+    <zeroOrMore>
+      <choice>
+        <text/>
+        <ref name="anyOPDSForeignElement"/>
+      </choice>
+    </zeroOrMore>
+  </define>
+  <define name="anyOPDSForeignElement">
+    <element>
+      <anyName>
+        <except>
+          <nsName ns="http://www.w3.org/2005/Atom"/>
+          <nsName ns="http://opds-spec.org/2010/catalog"/>
+        </except>
+      </anyName>
+      <zeroOrMore>
+        <choice>
+          <attribute>
+            <anyName/>
+          </attribute>
+          <text/>
+          <ref name="anyElement"/>
+        </choice>
+      </zeroOrMore>
+    </element>
+  </define>
+  <define name="dcFormat">
+    <element name="dc:format">
+      <text/>
+    </element>
+  </define>
+  <define name="opdsPrice">
+    <element name="opds:price">
+      <attribute name="currencycode">
+        <ref name="opdsPriceCurrencyCode"/>
+      </attribute>
+      <text/>
+    </element>
+  </define>
+  <define name="opdsPriceCurrencyCode">
+    <data type="string">
+      <param name="pattern">[A-Z]{3,3}</param>
+    </data>
+  </define>
+</grammar>
