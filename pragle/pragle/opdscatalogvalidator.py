@@ -6,23 +6,24 @@ opdscatalogvalidator.py
 Created by Keith Fahlgren on Fri Jun  4 22:36:22 PDT 2010
 """
 
-
 import logging
+import os.path
 
-import pkg_resources import resource_string
 from lxml import etree
 
 log = logging.getLogger(__name__)
 
 class OPDSCatalogValidator(object):
     def __init__(self):
-        foo_config = resource_stream(__name__, 'foo.conf')
-        self.validator = etree.RelaxNG(etree.parse(OPDS_CATALOG_RNG))
+        schemas_dir = os.path.join(os.path.dirname(__file__), 'schemas')
+        opds_catalog_rng = os.path.join(schemas_dir, 'opds_catalog_feed.rng')
+        self.validator = etree.RelaxNG(etree.parse(opds_catalog_rng))
         self.error_log = []
 
-    def is_valid(self):
+    def is_valid(self, xml_fn):
         """Validate the OPDS Catalog at the supplied filename against the OPDS Catalog schemas"""
-        valid = self.validator.validate(icml)
+        xml = etree.parse(xml_fn)
+        valid = self.validator.validate(xml)
         if valid:
             return True
         else:
